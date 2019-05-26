@@ -1,0 +1,19 @@
+file(GLOB_RECURSE SKETCH_SOURCES Private/*.cpp)
+file(GLOB_RECURSE SKETCH_HEADERS Public/*.h)
+
+set(THIRDPARTY_DIR ${PROJECT_SOURCE_DIR}/${ENGINE_NAME}/ThirdParty)
+
+add_library(${ENGINE_NAME} SHARED ${SKETCH_HEADERS} ${SKETCH_SOURCES})
+
+target_include_directories(${ENGINE_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/${ENGINE_NAME}/Public)
+target_compile_definitions(${ENGINE_NAME} PRIVATE SKETCH_DLL)
+
+add_subdirectory(ThirdParty/GLFW)
+target_link_libraries(${ENGINE_NAME} glfw)
+
+set_target_properties(${ENGINE_NAME}
+	PROPERTIES
+	ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+	LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+	RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)

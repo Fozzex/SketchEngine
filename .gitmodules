@@ -1,0 +1,3 @@
+[submodule "Sketch/ThirdParty/GLFW"]
+	path = Sketch/ThirdParty/GLFW
+	url = https://github.com/glfw/glfw

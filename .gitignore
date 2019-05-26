@@ -1,0 +1,26 @@
+##############
+# VS PROJECT #
+##############
+
+*.user
+*.vcxproj
+*.filters
+*.sln
+
+*.dir/
+.vs/
+
+[Bb]in/
+x64/
+x86/
+
+#########
+# CMAKE #
+#########
+
+*.cmake
+
+CMakeCache.txt
+
+CMakeFiles/
+CMake/
