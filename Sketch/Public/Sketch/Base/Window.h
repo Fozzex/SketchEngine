@@ -2,15 +2,15 @@
 #include <string>
 
 #include "Core.h"
-#include "Sketch/Util/Code/Interface.h"
 
 namespace sk
 {
-	class SKETCH_API Window : public Interface
+	class SKETCH_API Window
 	{
 	public:
 
 		Window(int width, int height, const std::string& title);
+		virtual ~Window() {}
 
 		virtual bool Closed() = 0;
 		virtual void SwapBuffers() = 0;

@@ -1,7 +1,9 @@
 #pragma once
 #include "Base/Window.h"
 
-#include "Util/Code/Interface.h"
-#include "Util/Code/NoCopy.h"
-#include "Util/Code/NoMove.h"
-#include "Util/Code/Singleton.h"
+#include "Input/Event.h"
+#include "Input/KeyEvents.h"
+#include "Input/MouseEvents.h"
+#include "Input/WindowEvents.h"
+#include "Input/EventHandler.h"
+#include "Input/EventDispatcher.h"

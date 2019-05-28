@@ -6,9 +6,9 @@
 *.vcxproj
 *.filters
 *.sln
+.vs/
 
 *.dir/
-.vs/
 
 [Bb]in/
 x64/
