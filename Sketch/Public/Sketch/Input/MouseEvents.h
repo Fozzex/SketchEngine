@@ -3,12 +3,12 @@
 
 namespace sk
 {
-	class MousePressEvent : public Event
+	class MousePressEvent : public Event, public ModifierEvent
 	{
 	public:
 
-		MousePressEvent(int button)
-			: m_Button(button) {}
+		MousePressEvent(int button, const Modifiers& mods)
+			: m_Button(button), ModifierEvent(mods) {}
 
 		inline int GetButton() const { return m_Button; }
 
@@ -18,12 +18,12 @@ namespace sk
 
 	};
 
-	class MouseReleaseEvent : public Event
+	class MouseReleaseEvent : public Event, public ModifierEvent
 	{
 	public:
 
-		MouseReleaseEvent(int button)
-			: m_Button(button) {}
+		MouseReleaseEvent(int button, const Modifiers& mods)
+			: m_Button(button), ModifierEvent(mods) {}
 
 		inline int GetButton() const { return m_Button; }
 
@@ -46,6 +46,37 @@ namespace sk
 	private:
 
 		float m_X, m_Y;
+
+	};
+
+	class ScrollEvent : public Event
+	{
+	public:
+
+		ScrollEvent(float offsetX, float offsetY)
+			: m_X(offsetX), m_Y(offsetY) {}
+		
+		inline float GetOffsetX() const { return m_X; }
+		inline float GetOffsetY() const { return m_Y; }
+
+	private:
+
+		float m_X, m_Y;
+
+	};
+
+	class MouseFocusEvent : public Event
+	{
+	public:
+
+		MouseFocusEvent(bool focussed)
+			: m_Focussed(focussed) {}
+
+		inline bool IsFocussed() const { return m_Focussed; }
+
+	private:
+
+		bool m_Focussed;
 
 	};
 }

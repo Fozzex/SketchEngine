@@ -3,28 +3,29 @@
 
 namespace sk
 {
-	class KeyPressEvent : public Event
+	class KeyPressEvent : public Event, public ModifierEvent
 	{
 	public:
 
-		KeyPressEvent(int keyCode, int count)
-			: m_KeyCode(keyCode), m_Count(count) {}
+		KeyPressEvent(int keyCode, bool repeat, const Modifiers& mods)
+			: m_KeyCode(keyCode), m_Repeat(repeat), ModifierEvent(mods) {}
 		
 		inline int GetKeyCode() const { return m_KeyCode; }
-		inline int GetCount() const { return m_Count; }
+		inline bool IsRepeat() const { return m_Repeat; }
 
 	private:
 
-		int m_KeyCode, m_Count;
+		int m_KeyCode;
+		bool m_Repeat;
 
 	};
 
-	class KeyReleaseEvent : public Event
+	class KeyReleaseEvent : public Event, public ModifierEvent
 	{
 	public:
 
-		KeyReleaseEvent(int keyCode)
-			: m_KeyCode(keyCode) {}
+		KeyReleaseEvent(int keyCode, const Modifiers& mods)
+			: m_KeyCode(keyCode), ModifierEvent(mods) {}
 
 		inline int GetKeyCode() const { return m_KeyCode; }
 

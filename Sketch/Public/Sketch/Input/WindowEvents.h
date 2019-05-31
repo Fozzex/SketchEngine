@@ -15,15 +15,15 @@ namespace sk
 	{
 	public:
 
-		WindowResizeEvent(float width, float height)
+		WindowResizeEvent(int width, int height)
 			: m_Width(width), m_Height(height) {}
 
-		inline float GetWidth() const { return m_Width; }
-		inline float GetHeight() const { return m_Height; }
+		inline int GetWidth() const { return m_Width; }
+		inline int GetHeight() const { return m_Height; }
 
 	private:
 
-		float m_Width, m_Height;
+		int m_Width, m_Height;
 
 	};
 }

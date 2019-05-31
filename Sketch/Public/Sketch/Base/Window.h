@@ -2,6 +2,7 @@
 #include <string>
 
 #include "Core.h"
+#include "Sketch/Input/EventDispatcher.h"
 
 namespace sk
 {
@@ -28,6 +29,8 @@ namespace sk
 		inline std::string GetTitle() const { return m_Title; }
 		inline bool GetVSync() const { return m_VSync; }
 
+		inline void SetDispatcher(EventDispatcher* dispatcher) { m_Dispatcher = dispatcher; }
+
 		virtual void* GetRaw() const = 0;
 
 		static Window* Create(int width = 1280, int height = 720, const std::string& title = "Sketch");
@@ -37,6 +40,10 @@ namespace sk
 		virtual void SetWindowSize(int width, int height) = 0;
 		virtual void SetWindowTitle(const std::string& title) = 0;
 		virtual void SetWindowVSync(bool enable) = 0;
+
+	protected:
+
+		EventDispatcher* m_Dispatcher;
 
 	private:
 

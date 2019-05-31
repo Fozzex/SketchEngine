@@ -26,11 +26,18 @@ namespace sk
 
 	private:
 
-		void Init(int width, int height, const std::string& title);
+		GLFWwindow* m_RawWindow;
 
 	private:
 
-		GLFWwindow* m_RawWindow;
+		static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+		static void TypeCallback(GLFWwindow* window, unsigned int codepoint);
+		static void CursorMoveCallback(GLFWwindow* window, double x, double y);
+		static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+		static void CursorEnterCallback(GLFWwindow* window, int entered);
+		static void ScrollCallback(GLFWwindow* window, double x, double y);
+		static void WindowResizeCallback(GLFWwindow* window, int width, int height);
+		static void WindowCloseCallback(GLFWwindow* window);
 
 	};
 }
