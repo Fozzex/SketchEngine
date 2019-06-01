@@ -29,7 +29,7 @@ namespace sk
 		inline std::string GetTitle() const { return m_Title; }
 		inline bool GetVSync() const { return m_VSync; }
 
-		inline void SetDispatcher(EventDispatcher* dispatcher) { m_Dispatcher = dispatcher; }
+		inline void SetDispatcher(EventDispatcher* dispatcher);
 
 		virtual void* GetRaw() const = 0;
 
@@ -41,9 +41,11 @@ namespace sk
 		virtual void SetWindowTitle(const std::string& title) = 0;
 		virtual void SetWindowVSync(bool enable) = 0;
 
+		virtual void InitEventCallbacks() = 0;
+
 	protected:
 
-		EventDispatcher* m_Dispatcher;
+		EventDispatcher* m_Dispatcher = nullptr;
 
 	private:
 

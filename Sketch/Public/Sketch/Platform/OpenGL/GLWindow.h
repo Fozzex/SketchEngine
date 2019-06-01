@@ -24,6 +24,8 @@ namespace sk
 		void SetWindowTitle(const std::string& title) override;
 		void SetWindowVSync(bool enable) override;
 
+		void InitEventCallbacks() override;
+
 	private:
 
 		GLFWwindow* m_RawWindow;

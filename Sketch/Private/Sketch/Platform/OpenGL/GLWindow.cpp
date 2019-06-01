@@ -19,15 +19,6 @@ namespace sk
 
 		m_RawWindow = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 		glfwSetWindowUserPointer(m_RawWindow, this);
-
-		glfwSetKeyCallback(m_RawWindow, KeyCallback);
-		glfwSetCharCallback(m_RawWindow, TypeCallback);
-		glfwSetCursorPosCallback(m_RawWindow, CursorMoveCallback);
-		glfwSetMouseButtonCallback(m_RawWindow, MouseButtonCallback);
-		glfwSetCursorEnterCallback(m_RawWindow, CursorEnterCallback);
-		glfwSetScrollCallback(m_RawWindow, ScrollCallback);
-		glfwSetWindowSizeCallback(m_RawWindow, WindowResizeCallback);
-		glfwSetWindowCloseCallback(m_RawWindow, WindowCloseCallback);
 	}
 
 	bool GLWindow::Closed()
@@ -59,6 +50,18 @@ namespace sk
 	void GLWindow::SetWindowVSync(bool enable)
 	{
 		glfwSwapInterval(enable ? 1 : 0);
+	}
+
+	void GLWindow::InitEventCallbacks()
+	{
+		glfwSetKeyCallback(m_RawWindow, KeyCallback);
+		glfwSetCharCallback(m_RawWindow, TypeCallback);
+		glfwSetCursorPosCallback(m_RawWindow, CursorMoveCallback);
+		glfwSetMouseButtonCallback(m_RawWindow, MouseButtonCallback);
+		glfwSetCursorEnterCallback(m_RawWindow, CursorEnterCallback);
+		glfwSetScrollCallback(m_RawWindow, ScrollCallback);
+		glfwSetWindowSizeCallback(m_RawWindow, WindowResizeCallback);
+		glfwSetWindowCloseCallback(m_RawWindow, WindowCloseCallback);
 	}
 
 	void GLWindow::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)

@@ -37,4 +37,10 @@ namespace sk
 		m_VSync = enable;
 		this->SetWindowVSync(enable);
 	}
+
+	void Window::SetDispatcher(EventDispatcher* dispatcher)
+	{
+		m_Dispatcher = dispatcher;
+		this->InitEventCallbacks();
+	}
 }
