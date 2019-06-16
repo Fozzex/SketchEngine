@@ -1,8 +1,9 @@
 #include "Sketch/Platform/OpenGL/GLWindow.h"
 
-#include "Sketch/Input/KeyEvents.h"
-#include "Sketch/Input/MouseEvents.h"
-#include "Sketch/Input/WindowEvents.h"
+#include "Sketch/Input/EventKeyboard.h"
+#include "Sketch/Input/EventMouse.h"
+#include "Sketch/Input/EventWindow.h"
+#include "Sketch/Platform/OpenGL/GLInputMap.h"
 
 namespace sk
 {
@@ -82,13 +83,13 @@ namespace sk
 			case GLFW_REPEAT:
 				repeat = true;
 			case GLFW_PRESS:
-				KeyPressEvent evnt(key, repeat, modifiers);
+				KeyPressEvent evnt(GLInputMap<Keyboard>::GetGeneric(key), repeat, modifiers);
 				glWindow->m_Dispatcher->Dispatch<KeyPressEvent>(evnt);
 				break;
 			}
 
 			case GLFW_RELEASE:
-				KeyReleaseEvent evnt(key, modifiers);
+				KeyReleaseEvent evnt(GLInputMap<Keyboard>::GetGeneric(key), modifiers);
 				glWindow->m_Dispatcher->Dispatch<KeyReleaseEvent>(evnt);
 				break;
 		}
@@ -124,13 +125,13 @@ namespace sk
 		{
 			case GLFW_PRESS:
 			{
-				MousePressEvent evnt(button, modifiers);
+				MousePressEvent evnt(GLInputMap<Mouse>::GetGeneric(button), modifiers);
 				glWindow->m_Dispatcher->Dispatch<MousePressEvent>(evnt);
 				break;
 			}
 			case GLFW_RELEASE:
 			{
-				MouseReleaseEvent evnt(button, modifiers);
+				MouseReleaseEvent evnt(GLInputMap<Mouse>::GetGeneric(button), modifiers);
 				glWindow->m_Dispatcher->Dispatch<MouseReleaseEvent>(evnt);
 				break;
 			}

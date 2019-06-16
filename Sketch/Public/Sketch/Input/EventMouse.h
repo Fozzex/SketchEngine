@@ -7,14 +7,14 @@ namespace sk
 	{
 	public:
 
-		MousePressEvent(int button, const Modifiers& mods)
+		MousePressEvent(Mouse button, const Modifiers& mods)
 			: m_Button(button), ModifierEvent(mods) {}
 
-		inline int GetButton() const { return m_Button; }
+		inline Mouse GetButton() const { return m_Button; }
 
 	private:
 
-		int m_Button;
+		Mouse m_Button;
 
 	};
 
@@ -22,14 +22,14 @@ namespace sk
 	{
 	public:
 
-		MouseReleaseEvent(int button, const Modifiers& mods)
+		MouseReleaseEvent(Mouse button, const Modifiers& mods)
 			: m_Button(button), ModifierEvent(mods) {}
 
-		inline int GetButton() const { return m_Button; }
+		inline Mouse GetButton() const { return m_Button; }
 
 	private:
 
-		int m_Button;
+		Mouse m_Button;
 
 	};
 

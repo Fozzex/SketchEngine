@@ -1,5 +1,6 @@
 #pragma once
 #include "Event.h"
+#include "InputCodes.h"
 
 namespace sk
 {
@@ -7,15 +8,15 @@ namespace sk
 	{
 	public:
 
-		KeyPressEvent(int keyCode, bool repeat, const Modifiers& mods)
+		KeyPressEvent(Keyboard keyCode, bool repeat, const Modifiers& mods)
 			: m_KeyCode(keyCode), m_Repeat(repeat), ModifierEvent(mods) {}
 		
-		inline int GetKeyCode() const { return m_KeyCode; }
+		inline Keyboard GetKeyCode() const { return m_KeyCode; }
 		inline bool IsRepeat() const { return m_Repeat; }
 
 	private:
 
-		int m_KeyCode;
+		Keyboard m_KeyCode;
 		bool m_Repeat;
 
 	};
@@ -24,14 +25,14 @@ namespace sk
 	{
 	public:
 
-		KeyReleaseEvent(int keyCode, const Modifiers& mods)
+		KeyReleaseEvent(Keyboard keyCode, const Modifiers& mods)
 			: m_KeyCode(keyCode), ModifierEvent(mods) {}
 
-		inline int GetKeyCode() const { return m_KeyCode; }
+		inline Keyboard GetKeyCode() const { return m_KeyCode; }
 
 	private:
 
-		int m_KeyCode;
+		Keyboard m_KeyCode;
 
 	};
 
