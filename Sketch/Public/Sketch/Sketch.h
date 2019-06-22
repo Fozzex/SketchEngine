@@ -7,3 +7,8 @@
 #include "Input/EventMouse.h"
 #include "Input/EventHandler.h"
 #include "Input/EventDispatcher.h"
+
+#include "Input/InputCodes.h"
+#include "Input/InputDevice.h"
+#include "Input/InputDeviceKeyboard.h"
+#include "Input/InputDeviceMouse.h"

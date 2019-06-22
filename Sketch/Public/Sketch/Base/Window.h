@@ -3,6 +3,11 @@
 
 #include "Core.h"
 #include "Sketch/Input/EventDispatcher.h"
+#include "Sketch/Input/InputDeviceMouse.h"
+#include "Sketch/Input/InputDeviceKeyboard.h"
+
+#include "Sketch/Input/DeviceHandleKeyboard.h"
+#include "Sketch/Input/DeviceHandleMouse.h"
 
 namespace sk
 {
@@ -31,6 +36,9 @@ namespace sk
 
 		inline void SetDispatcher(EventDispatcher* dispatcher);
 
+		inline const InputDeviceKeyboard* GetKeyboard() const { return &m_KeyboardDevice; }
+		inline const InputDeviceMouse* GetMouse() const { return &m_MouseDevice; }
+
 		virtual void* GetRaw() const = 0;
 
 		static Window* Create(int width = 1280, int height = 720, const std::string& title = "Sketch");
@@ -47,12 +55,18 @@ namespace sk
 
 		EventDispatcher* m_Dispatcher = nullptr;
 
+		DeviceHandleKeyboard m_KeyboardHandle;
+		DeviceHandleMouse m_MouseHandle;
+
 	private:
 
 		int m_Width, m_Height;
 
 		std::string m_Title;
 		bool m_VSync = false;
+
+		InputDeviceKeyboard m_KeyboardDevice;
+		InputDeviceMouse m_MouseDevice;
 
 	};
 }

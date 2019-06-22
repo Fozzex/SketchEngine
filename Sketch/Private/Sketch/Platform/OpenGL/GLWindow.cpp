@@ -75,6 +75,8 @@ namespace sk
 		modifiers.alt = mods & GLFW_MOD_ALT;
 		modifiers.super = mods & GLFW_MOD_SUPER;
 
+		Keyboard genericKey = GLInputMap<Keyboard>::GetGeneric(key);
+
 		bool repeat = false;
 
 		switch (action)
@@ -83,12 +85,16 @@ namespace sk
 			case GLFW_REPEAT:
 				repeat = true;
 			case GLFW_PRESS:
-				KeyPressEvent evnt(GLInputMap<Keyboard>::GetGeneric(key), repeat, modifiers);
+				glWindow->m_KeyboardHandle.SetFlag(genericKey, true);
+
+				KeyPressEvent evnt(genericKey, repeat, modifiers);
 				glWindow->m_Dispatcher->Dispatch<KeyPressEvent>(evnt);
 				break;
 			}
 
 			case GLFW_RELEASE:
+				glWindow->m_KeyboardHandle.SetFlag(genericKey, false);
+
 				KeyReleaseEvent evnt(GLInputMap<Keyboard>::GetGeneric(key), modifiers);
 				glWindow->m_Dispatcher->Dispatch<KeyReleaseEvent>(evnt);
 				break;
@@ -106,6 +112,7 @@ namespace sk
 	void GLWindow::CursorMoveCallback(GLFWwindow* window, double x, double y)
 	{
 		auto glWindow = static_cast<GLWindow*>(glfwGetWindowUserPointer(window));
+		glWindow->m_MouseHandle.SetPositionVector((float)x, (float)y);
 
 		MouseMoveEvent evnt((float)x, (float)y);
 		glWindow->m_Dispatcher->Dispatch<MouseMoveEvent>(evnt);
@@ -121,17 +128,23 @@ namespace sk
 		modifiers.alt = mods & GLFW_MOD_ALT;
 		modifiers.super = mods & GLFW_MOD_SUPER;
 
+		Mouse genericButton = GLInputMap<Mouse>::GetGeneric(button);
+
 		switch (action)
 		{
 			case GLFW_PRESS:
 			{
-				MousePressEvent evnt(GLInputMap<Mouse>::GetGeneric(button), modifiers);
+				glWindow->m_MouseHandle.SetFlag(genericButton, true);
+
+				MousePressEvent evnt(genericButton, modifiers);
 				glWindow->m_Dispatcher->Dispatch<MousePressEvent>(evnt);
 				break;
 			}
 			case GLFW_RELEASE:
 			{
-				MouseReleaseEvent evnt(GLInputMap<Mouse>::GetGeneric(button), modifiers);
+				glWindow->m_MouseHandle.SetFlag(genericButton, false);
+
+				MouseReleaseEvent evnt(genericButton, modifiers);
 				glWindow->m_Dispatcher->Dispatch<MouseReleaseEvent>(evnt);
 				break;
 			}
@@ -149,6 +162,7 @@ namespace sk
 	void GLWindow::ScrollCallback(GLFWwindow* window, double x, double y)
 	{
 		auto glWindow = static_cast<GLWindow*>(glfwGetWindowUserPointer(window));
+		glWindow->m_MouseHandle.SetScrollOffset((float)x, (float)y);
 
 		ScrollEvent evnt((float)x, (float)y);
 		glWindow->m_Dispatcher->Dispatch<ScrollEvent>(evnt);

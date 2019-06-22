@@ -27,14 +27,6 @@ namespace sk
 			return false;
 		}
 
-		virtual void SetFlag(InputEnum element, bool flag)
-		{
-			unsigned int index = static_cast<unsigned int>(element);
-
-			if (index < s_EnumSize)
-				m_Flags[index] = flag;
-		}
-
 		static constexpr int GetMapSize()
 		{
 			return s_EnumSize;
@@ -42,7 +34,7 @@ namespace sk
 
 	protected:
 
-		std::array<bool, s_EnumSize> m_Flags;
+		std::array<bool, s_EnumSize> m_Flags = { false };
 
 	};
 }

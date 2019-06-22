@@ -4,6 +4,8 @@ namespace sk
 {
 	Window::Window(int width, int height, const std::string& title)
 		: m_Width(width), m_Height(height), m_Title(title)
+		, m_KeyboardHandle(&m_KeyboardDevice)
+		, m_MouseHandle(&m_MouseDevice)
 	{
 	}
 

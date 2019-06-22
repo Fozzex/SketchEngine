@@ -10,3 +10,5 @@
 #else
 #	define SKETCH_API
 #endif
+
+#define BIND_EVENT_METHOD(fn) std::bind(fn, this, std::placeholders::_1)

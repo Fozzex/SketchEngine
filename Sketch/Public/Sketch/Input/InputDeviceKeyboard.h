@@ -6,5 +6,6 @@ namespace sk
 {
 	class InputDeviceKeyboard : public InputButtonDevice<Keyboard>
 	{
+		friend class DeviceHandleKeyboard;
 	};
 }

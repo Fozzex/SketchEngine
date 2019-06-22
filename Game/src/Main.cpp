@@ -1,6 +1,5 @@
 #include <iostream>
 #include <Sketch/Sketch.h>
-#include <Sketch/Input/InputDeviceMouse.h>
 
 bool OnKeyPressEvent(sk::KeyPressEvent& e)
 {
