@@ -2,7 +2,7 @@
 
 namespace sk
 {
-	// Platform non-specific contiguous key codes
+	// Contiguous platform independent input codes
 	enum class Keyboard : short
 	{
 		Unknown          = 0,
@@ -130,23 +130,22 @@ namespace sk
 		Count            = Menu
 	};
 
-	// Platform non-specific contiguous mouse button codes
 	enum class Mouse : short
 	{
-		Unknown      = -1,
+		Unknown = -1,
 
-		Button1		 = 0,
-		Button2		 = 1,
-		Button3		 = 2,
-		Button4		 = 3,
-		Button5		 = 4,
-		Button6		 = 5,
-		Button7		 = 6,
-		Button8		 = 7,
-		ButtonLeft   = Button1,
-		ButtonRight  = Button2,
+		Button1 = 0,
+		Button2 = 1,
+		Button3 = 2,
+		Button4 = 3,
+		Button5 = 4,
+		Button6 = 5,
+		Button7 = 6,
+		Button8 = 7,
+		ButtonLeft = Button1,
+		ButtonRight = Button2,
 		ButtonMiddle = Button3,
 
-		Count        = Button8
+		Count = Button8
 	};
 }

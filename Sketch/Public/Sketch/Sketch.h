@@ -8,6 +8,7 @@
 #include "Input/EventHandler.h"
 #include "Input/EventDispatcher.h"
 
+#include "Input/Input.h"
 #include "Input/InputCodes.h"
 #include "Input/InputDevice.h"
 #include "Input/InputDeviceKeyboard.h"

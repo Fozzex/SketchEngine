@@ -3,7 +3,8 @@
 
 bool OnKeyPressEvent(sk::KeyPressEvent& e)
 {
-	std::cout << static_cast<int>(e.GetKeyCode()) << std::endl;
+	std::cout << "Key Code: " << static_cast<int>(e.GetKeyCode()) << std::endl;
+
 	return true;
 }
 
@@ -11,6 +12,8 @@ int main()
 {
 	sk::Window* window = sk::Window::Create();
 	window->SetVerticalSync(true);
+
+	sk::Input::AttachWindow(window);
 
 	sk::EventDispatcher dispatcher;
 	window->SetDispatcher(&dispatcher);

@@ -10,6 +10,8 @@ namespace sk
 		DeviceHandle(Device* device)
 			: m_Device(device) {}
 
+		inline void SetHandle(Device* device) { m_Device = device; }
+
 	protected:
 
 		Device* m_Device;
