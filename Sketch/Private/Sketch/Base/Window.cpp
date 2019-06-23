@@ -1,4 +1,5 @@
 #include "Sketch/Base/Window.h"
+#include "Sketch/Input/Input.h"
 
 namespace sk
 {
@@ -7,6 +8,7 @@ namespace sk
 		, m_KeyboardHandle(&m_KeyboardDevice)
 		, m_MouseHandle(&m_MouseDevice)
 	{
+		Window::SetActiveWindow(this);
 	}
 
 	void Window::SetWidth(int width)
@@ -44,5 +46,10 @@ namespace sk
 	{
 		m_Dispatcher = dispatcher;
 		this->InitEventCallbacks();
+	}
+
+	void Window::SetActiveWindow(Window* window)
+	{
+		Input::s_ActiveWindow = window;
 	}
 }

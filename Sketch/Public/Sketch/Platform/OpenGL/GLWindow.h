@@ -40,6 +40,7 @@ namespace sk
 		static void ScrollCallback(GLFWwindow* window, double x, double y);
 		static void WindowResizeCallback(GLFWwindow* window, int width, int height);
 		static void WindowCloseCallback(GLFWwindow* window);
+		static void WindowFocusCallback(GLFWwindow* window, int focussed);
 
 	};
 }

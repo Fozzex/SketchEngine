@@ -6,9 +6,8 @@ namespace sk
 {
 	class SKETCH_API Input
 	{
+		friend class Window;
 	public:
-
-		static void AttachWindow(const Window* windowHandle);
 		
 		static bool IsKeyPressed(Keyboard key);
 		static bool IsButtonPressed(Mouse button);
@@ -24,7 +23,7 @@ namespace sk
 
 	private:
 
-		static const Window* m_WindowHandle;
+		static const Window* s_ActiveWindow;
 
 	};
 }

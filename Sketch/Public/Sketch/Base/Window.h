@@ -34,6 +34,8 @@ namespace sk
 		inline std::string GetTitle() const { return m_Title; }
 		inline bool GetVSync() const { return m_VSync; }
 
+		inline bool IsFocussed() const { return m_ActiveWindowFlag; }
+
 		inline void SetDispatcher(EventDispatcher* dispatcher);
 
 		inline const InputDeviceKeyboard* GetKeyboard() const { return &m_KeyboardDevice; }
@@ -51,12 +53,16 @@ namespace sk
 
 		virtual void InitEventCallbacks() = 0;
 
+		static void SetActiveWindow(Window* window);
+
 	protected:
 
 		EventDispatcher* m_Dispatcher = nullptr;
 
 		DeviceHandleKeyboard m_KeyboardHandle;
 		DeviceHandleMouse m_MouseHandle;
+
+		bool m_ActiveWindowFlag = false;
 
 	private:
 

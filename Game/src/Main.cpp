@@ -13,8 +13,6 @@ int main()
 	sk::Window* window = sk::Window::Create();
 	window->SetVerticalSync(true);
 
-	sk::Input::AttachWindow(window);
-
 	sk::EventDispatcher dispatcher;
 	window->SetDispatcher(&dispatcher);
 

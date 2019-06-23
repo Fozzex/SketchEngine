@@ -63,6 +63,7 @@ namespace sk
 		glfwSetScrollCallback(m_RawWindow, ScrollCallback);
 		glfwSetWindowSizeCallback(m_RawWindow, WindowResizeCallback);
 		glfwSetWindowCloseCallback(m_RawWindow, WindowCloseCallback);
+		glfwSetWindowFocusCallback(m_RawWindow, WindowFocusCallback);
 	}
 
 	void GLWindow::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -182,5 +183,16 @@ namespace sk
 
 		WindowCloseEvent evnt;
 		glWindow->m_Dispatcher->Dispatch<WindowCloseEvent>(evnt);
+	}
+
+	void GLWindow::WindowFocusCallback(GLFWwindow* window, int focussed)
+	{
+		auto glWindow = static_cast<GLWindow*>(glfwGetWindowUserPointer(window));
+		glWindow->m_ActiveWindowFlag = (bool)focussed;
+		
+		if (focussed)
+			Window::SetActiveWindow(glWindow);
+		else
+			Window::SetActiveWindow(nullptr);
 	}
 }

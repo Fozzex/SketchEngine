@@ -3,67 +3,61 @@
 // TODO: Check if window is the current active window.
 namespace sk
 {
-	const Window* Input::m_WindowHandle = nullptr;
-
-	void Input::AttachWindow(const Window* windowHandle)
-	{
-		m_WindowHandle = windowHandle;
-	}
-
+	const Window* Input::s_ActiveWindow = nullptr;
 	
 	bool Input::IsKeyPressed(Keyboard key)
 	{
-		if (m_WindowHandle)
-			return m_WindowHandle->GetKeyboard()->IsPressed(key);
+		if (s_ActiveWindow)
+			return s_ActiveWindow->GetKeyboard()->IsPressed(key);
 
 		return false;
 	}
 
 	bool Input::IsButtonPressed(Mouse button)
 	{
-		if (m_WindowHandle)
-			return m_WindowHandle->GetMouse()->IsPressed(button);
+		if (s_ActiveWindow)
+			return s_ActiveWindow->GetMouse()->IsPressed(button);
 
 		return false;
 	}
 
 	float Input::GetMouseX()
 	{
-		if (m_WindowHandle)
-			return m_WindowHandle->GetMouse()->GetMouseX();
+		if (s_ActiveWindow)
+			return s_ActiveWindow->GetMouse()->GetMouseX();
 
 		return 0.0f;
 	}
 
 	float Input::GetMouseY()
 	{
-		if (m_WindowHandle)
-			return m_WindowHandle->GetMouse()->GetMouseY();
+		if (s_ActiveWindow)
+			return s_ActiveWindow->GetMouse()->GetMouseY();
 
 		return 0.0f;
 	}
 
 	float Input::GetScrollOffsetX()
 	{
-		if (m_WindowHandle)
-			return m_WindowHandle->GetMouse()->GetScrollOffsetX();
+		if (s_ActiveWindow)
+			return s_ActiveWindow->GetMouse()->GetScrollOffsetX();
 
 		return 0.0f;
 	}
 
 	float Input::GetScrollOffsetY()
 	{
-		if (m_WindowHandle)
-			return m_WindowHandle->GetMouse()->GetScrollOffsetY();
+		if (s_ActiveWindow)
+			return s_ActiveWindow->GetMouse()->GetScrollOffsetY();
 
 		return 0.0f;
 	}
 
 	std::pair<float, float> Input::GetMousePosition()
 	{
-		if (m_WindowHandle)
+		if (s_ActiveWindow)
 		{
-			auto* mouse = m_WindowHandle->GetMouse();
+			auto* mouse = s_ActiveWindow->GetMouse();
 
 			return { mouse->GetMouseX(), mouse->GetMouseY() };
 		}
@@ -73,9 +67,9 @@ namespace sk
 
 	std::pair<float, float> Input::GetScrollOffset()
 	{
-		if (m_WindowHandle)
+		if (s_ActiveWindow)
 		{
-			auto* mouse = m_WindowHandle->GetMouse();
+			auto* mouse = s_ActiveWindow->GetMouse();
 
 			return { mouse->GetScrollOffsetX(), mouse->GetScrollOffsetY() };
 		}
