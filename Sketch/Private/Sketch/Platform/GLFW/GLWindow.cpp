@@ -1,9 +1,9 @@
-#include "Sketch/Platform/OpenGL/GLWindow.h"
+#include "Sketch/Platform/GLFW/GLWindow.h"
 
 #include "Sketch/Input/EventKeyboard.h"
 #include "Sketch/Input/EventMouse.h"
 #include "Sketch/Input/EventWindow.h"
-#include "Sketch/Platform/OpenGL/GLInputMap.h"
+#include "Sketch/Platform/GLFW/GLInputMap.h"
 
 namespace sk
 {
