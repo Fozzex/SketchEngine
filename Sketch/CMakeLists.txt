@@ -6,8 +6,12 @@ set(THIRDPARTY_DIR ${PROJECT_SOURCE_DIR}/${ENGINE_NAME}/ThirdParty)
 add_library(${ENGINE_NAME} SHARED ${SKETCH_HEADERS} ${SKETCH_SOURCES})
 
 target_include_directories(${ENGINE_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/${ENGINE_NAME}/Public)
-target_compile_definitions(${ENGINE_NAME} PRIVATE SKETCH_DLL)
 
+# Defines
+target_compile_definitions(${ENGINE_NAME} PRIVATE SKETCH_DLL)
+target_compile_definitions(${ENGINE_NAME} PUBLIC "$<$<CONFIG:DEBUG>:SKETCH_DEBUG>")
+
+# Link GLFW
 add_subdirectory(ThirdParty/GLFW)
 target_link_libraries(${ENGINE_NAME} glfw)
 

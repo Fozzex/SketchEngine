@@ -1,6 +1,4 @@
 #pragma once
-#include <assert.h>
-
 #include "Sketch/Base/Window.h"
 
 #include <GLFW/glfw3.h>

@@ -1,4 +1,5 @@
 #include "Sketch/Platform/GLFW/GLWindow.h"
+#include <assert.h>
 
 #include "Sketch/Input/EventKeyboard.h"
 #include "Sketch/Input/EventMouse.h"
