@@ -33,7 +33,10 @@ namespace sk
 			break;
 		}
 		
-		m_Log << std::endl;
+		m_Log << "\n";
 		m_OutputFile << "[" + prefix + "] " << m_Log.str();
+		m_OutputFile << std::flush;
+
+		m_Log.str(std::string());
 	}
 }

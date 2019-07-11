@@ -1,5 +1,6 @@
 #pragma once
 #include "Base/Window.h"
+#include "Base/Logger.h"
 
 #include "Input/Event.h"
 #include "Input/EventKeyboard.h"

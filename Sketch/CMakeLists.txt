@@ -11,6 +11,16 @@ target_include_directories(${ENGINE_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/${ENGINE_
 target_compile_definitions(${ENGINE_NAME} PRIVATE SKETCH_DLL)
 target_compile_definitions(${ENGINE_NAME} PUBLIC "$<$<CONFIG:DEBUG>:SKETCH_DEBUG>")
 
+if (WIN32)
+	target_compile_definitions(${ENGINE_NAME} PUBLIC SKETCH_PLATFORM_WINDOWS)
+elseif (UNIX)
+	if (APPLE)
+		target_compile_definitions(${ENGINE_NAME} PUBLIC SKETCH_PLATFORM_APPLE)
+	else()
+		target_compile_definitions(${ENGINE_NAME} PUBLIC SKETCH_PLATFORM_UNIX)
+	endif()
+endif()
+
 # Link GLFW
 add_subdirectory(ThirdParty/GLFW)
 target_link_libraries(${ENGINE_NAME} glfw)

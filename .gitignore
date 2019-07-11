@@ -24,3 +24,10 @@ CMakeCache.txt
 
 CMakeFiles/
 CMake/
+
+##########
+# ENGINE #
+##########
+
+[Ll]ogs/
+[Ll]og/
