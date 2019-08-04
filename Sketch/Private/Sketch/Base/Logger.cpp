@@ -1,6 +1,8 @@
 #include "Sketch/Base/Logger.h"
 #include <assert.h>
 
+#include "Sketch/Base/FileSystem.h"
+
 namespace sk
 {
 	std::unordered_map<unsigned int, std::string> Logger::s_PrefixMap
@@ -13,8 +15,22 @@ namespace sk
 
 	Logger::Logger(const std::string& outputFile)
 	{
+		size_t directoryDelim = outputFile.find_last_of("/\\");
+		std::string directory = outputFile.substr(0, directoryDelim);
+
+		if (!FileSystem::DirectoryExists(directory))
+		{
+			directoryDelim = directory.find_last_of("/\\");
+			std::string nestedDirectory = directory.substr(0, directoryDelim);
+
+			bool result = FileSystem::DirectoryExists(nestedDirectory);
+			assert(result && "Attempted to create file in non-existant nested directories");
+
+			FileSystem::CreateDirectory(directory);
+		}
+
 		m_OutputFile.open(static_cast<std::string>(outputFile));
-		assert(m_OutputFile);
+		assert(m_OutputFile && "Failed to create log file");
 
 		this->SetLevel(LogLevel::Info);
 	}

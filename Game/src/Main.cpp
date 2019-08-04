@@ -1,7 +1,7 @@
 #include <iostream>
 #include <Sketch/Sketch.h>
 
-static sk::Logger g_Logger("../Game/Logs/SetupLogs.txt");
+static sk::Logger g_Logger("C:/dev-2019/SketchEngine/Game/Logs/SetupLogs.txt");
 
 bool OnKeyPressEvent(sk::KeyPressEvent& e)
 {

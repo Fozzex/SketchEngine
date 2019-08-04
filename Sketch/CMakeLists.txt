@@ -14,10 +14,12 @@ target_compile_definitions(${ENGINE_NAME} PUBLIC "$<$<CONFIG:DEBUG>:SKETCH_DEBUG
 if (WIN32)
 	target_compile_definitions(${ENGINE_NAME} PUBLIC SKETCH_PLATFORM_WINDOWS)
 elseif (UNIX)
+	target_compile_definitions(${ENGINE_NAME} PUBLIC SKETCH_PLATFORM_UNIX)
+
 	if (APPLE)
 		target_compile_definitions(${ENGINE_NAME} PUBLIC SKETCH_PLATFORM_APPLE)
 	else()
-		target_compile_definitions(${ENGINE_NAME} PUBLIC SKETCH_PLATFORM_UNIX)
+		target_compile_definitions(${ENGINE_NAME} PUBLIC SKETCH_PLATFORM_LINUX)
 	endif()
 endif()
 
@@ -30,4 +32,5 @@ set_target_properties(${ENGINE_NAME}
 	ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 	LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 	RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+	CXX_STANDARD 17
 )
