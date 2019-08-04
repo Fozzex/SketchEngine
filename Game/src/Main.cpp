@@ -12,7 +12,6 @@ bool OnKeyPressEvent(sk::KeyPressEvent& e)
 
 int main()
 {
-
 	sk::Window* window = sk::Window::Create();
 	g_Logger.Log("Window created");
 	window->SetVerticalSync(true);

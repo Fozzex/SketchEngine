@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <unordered_map>
 
 #include "Core.h"
 
@@ -17,6 +18,7 @@ namespace sk
 
 	class SKETCH_API Logger
 	{
+		static std::unordered_map<unsigned int, std::string> s_PrefixMap;
 	public:
 
 		Logger(const std::string& outputFile);
@@ -28,9 +30,14 @@ namespace sk
 		Logger& operator=(Logger&&) = delete;
 
 		template<typename T, typename... Args>
-		void Log(const T& msg, const Args& ... args);
+		void Log(const T& msg, Args&& ... args);
 
-		inline void SetLevel(LogLevel level) { m_Level = level; }
+		void SetLevel(LogLevel level);
+
+		static inline const std::string& GetPrefix(LogLevel level) 
+		{ 
+			return s_PrefixMap[static_cast<unsigned int>(level)]; 
+		}
 
 	private:
 
@@ -41,14 +48,15 @@ namespace sk
 		std::ofstream m_OutputFile;
 		std::stringstream m_Log;
 
-		LogLevel m_Level = LogLevel::Info;
+		LogLevel m_Level;
+		std::string m_Prefix;
 
 	};
 
 	template<typename T, typename... Args>
-	void Logger::Log(const T& msg, const Args& ... args)
+	void Logger::Log(const T& msg, Args&& ... args)
 	{
 		m_Log << msg;
-		this->Log(args...);
+		this->Log(std::forward<decltype(args)>(args)...);
 	}
 }
