@@ -2,7 +2,7 @@
 
 #if defined(SKETCH_PLATFORM_WINDOWS)
 
-#include "Sketch/Platform/Win32/Win32CleanupApi.h"
+#include "Private/Sketch/Platform/PlatformWin32/Win32CleanupApi.h"
 
 namespace sk
 {

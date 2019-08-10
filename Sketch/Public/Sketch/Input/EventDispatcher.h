@@ -32,7 +32,7 @@ namespace sk
 
 	private:
 
-		std::unordered_map<std::type_index, EventHandler<Event>*> m_Handlers;
+		std::unordered_map<std::type_index, EventHandler<Event>*> m_Handlers = {};
 
 	};
 }

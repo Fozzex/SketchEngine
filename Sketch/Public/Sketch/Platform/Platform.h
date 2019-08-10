@@ -1,8 +1,0 @@
-#pragma once
-#if defined(SKETCH_PLATFORM_WINDOWS)
-#	include "GLFW/GLWindow.h"
-#elif defined(SKETCH_PLATFORM_APPLE)
-#	error APPLE PLATFORMS CURRENTLY NOT SUPPORTED!
-#elif defined(SKETCH_PLATFORM_UNIX)
-#	error UNIX PLATFORMS CURRENTLY NOT SUPPORTED!
-#endif

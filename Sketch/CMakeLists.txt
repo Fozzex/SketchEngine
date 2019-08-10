@@ -1,10 +1,11 @@
-file(GLOB_RECURSE SKETCH_SOURCES Private/*.cpp)
-file(GLOB_RECURSE SKETCH_HEADERS Public/*.h)
+file(GLOB_RECURSE SKETCH_SOURCES Private/*.cpp Public/*.cpp)
+file(GLOB_RECURSE SKETCH_HEADERS Private/*.h Public/*.h)
 
 set(THIRDPARTY_DIR ${PROJECT_SOURCE_DIR}/${ENGINE_NAME}/ThirdParty)
 
 add_library(${ENGINE_NAME} SHARED ${SKETCH_HEADERS} ${SKETCH_SOURCES})
 
+target_include_directories(${ENGINE_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/${ENGINE_NAME})
 target_include_directories(${ENGINE_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/${ENGINE_NAME}/Public)
 
 # Defines

@@ -1,4 +1,4 @@
-#include "Sketch/Platform/GLFW/GLInputMap.h"
+#include "GLInputMap.h"
 
 namespace sk
 {

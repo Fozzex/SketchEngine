@@ -10,22 +10,28 @@ bool OnKeyPressEvent(sk::KeyPressEvent& e)
 	return true;
 }
 
+bool OnMouseMoveEvent(sk::MouseMoveEvent& e)
+{
+	return true;
+}
+
 int main()
 {
-	sk::Window* window = sk::Window::Create();
+	sk::Window window(1280, 720, "Sketch");
 	g_Logger.Log("Window created");
-	window->SetVerticalSync(true);
+	window.SetVerticalSync(true);
 
 	sk::EventDispatcher dispatcher;
-	window->SetDispatcher(&dispatcher);
+	window.SetDispatcher(&dispatcher);
 
 	sk::EventHandler<sk::KeyPressEvent> keyPressHandler(OnKeyPressEvent);
 	dispatcher.AddListener(&keyPressHandler);
 
-	while (!window->Closed())
-	{
-		window->SwapBuffers();
-	}
+	sk::EventHandler<sk::MouseMoveEvent> mouseMoveHandler(OnMouseMoveEvent);
+	dispatcher.AddListener(&mouseMoveHandler);
 
-	delete window;
+	while (!window.Closed())
+	{
+		window.SwapBuffers();
+	}
 }

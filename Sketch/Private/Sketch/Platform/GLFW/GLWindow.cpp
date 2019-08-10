@@ -1,26 +1,30 @@
-#include "Sketch/Platform/GLFW/GLWindow.h"
+#include "GLWindow.h"
 #include <assert.h>
 
 #include "Sketch/Input/EventKeyboard.h"
 #include "Sketch/Input/EventMouse.h"
 #include "Sketch/Input/EventWindow.h"
-#include "Sketch/Platform/GLFW/GLInputMap.h"
+#include "Sketch/Base/Window.h"
+#include "GLInputMap.h"
 
 namespace sk
 {
-	Window* Window::Create(int width, int height, const std::string& title)
-	{
-		return new GLWindow(width, height, title);
-	}
-
-	GLWindow::GLWindow(int width, int height, const std::string& title)
-		: Window(width, height, title)
+	GLWindow::GLWindow(int width, int height, const std::string& title, Window* wrapper)
 	{
 		int glfwResult = glfwInit();
 		assert(glfwResult);
 
 		m_RawWindow = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
-		glfwSetWindowUserPointer(m_RawWindow, this);
+		glfwSetWindowUserPointer(m_RawWindow, wrapper);
+
+		glfwSetKeyCallback(m_RawWindow, KeyCallback);
+		glfwSetCharCallback(m_RawWindow, TypeCallback);
+		glfwSetCursorPosCallback(m_RawWindow, CursorMoveCallback);
+		glfwSetMouseButtonCallback(m_RawWindow, MouseButtonCallback);
+		glfwSetCursorEnterCallback(m_RawWindow, CursorEnterCallback);
+		glfwSetScrollCallback(m_RawWindow, ScrollCallback);
+		glfwSetWindowSizeCallback(m_RawWindow, WindowResizeCallback);
+		glfwSetWindowCloseCallback(m_RawWindow, WindowCloseCallback);
 	}
 
 	bool GLWindow::Closed()
@@ -39,161 +43,156 @@ namespace sk
 		return static_cast<void*>(m_RawWindow);
 	}
 
-	void GLWindow::SetWindowSize(int width, int height)
+	void GLWindow::SetSize(int width, int height)
 	{
 		glfwSetWindowSize(m_RawWindow, width, height);
 	}
 
-	void GLWindow::SetWindowTitle(const std::string& title)
+	void GLWindow::SetTitle(const std::string& title)
 	{
 		glfwSetWindowTitle(m_RawWindow, title.c_str());
 	}
 
-	void GLWindow::SetWindowVSync(bool enable)
+	void GLWindow::SetVSync(bool enable)
 	{
 		glfwSwapInterval(enable ? 1 : 0);
 	}
 
-	void GLWindow::InitEventCallbacks()
-	{
-		glfwSetKeyCallback(m_RawWindow, KeyCallback);
-		glfwSetCharCallback(m_RawWindow, TypeCallback);
-		glfwSetCursorPosCallback(m_RawWindow, CursorMoveCallback);
-		glfwSetMouseButtonCallback(m_RawWindow, MouseButtonCallback);
-		glfwSetCursorEnterCallback(m_RawWindow, CursorEnterCallback);
-		glfwSetScrollCallback(m_RawWindow, ScrollCallback);
-		glfwSetWindowSizeCallback(m_RawWindow, WindowResizeCallback);
-		glfwSetWindowCloseCallback(m_RawWindow, WindowCloseCallback);
-		glfwSetWindowFocusCallback(m_RawWindow, WindowFocusCallback);
-	}
-
 	void GLWindow::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
-		auto glWindow = static_cast<GLWindow*>(glfwGetWindowUserPointer(window));
+		auto glWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
 		
-		ModifierEvent::Modifiers modifiers;
-		modifiers.shift = mods & GLFW_MOD_SHIFT;
-		modifiers.ctrl = mods & GLFW_MOD_CONTROL;
-		modifiers.alt = mods & GLFW_MOD_ALT;
-		modifiers.super = mods & GLFW_MOD_SUPER;
-
-		Keyboard genericKey = GLInputMap<Keyboard>::GetGeneric(key);
-
-		bool repeat = false;
-
-		switch (action)
+		if (glWindow->GetDispatcher())
 		{
+			ModifierEvent::Modifiers modifiers;
+			modifiers.shift = mods & GLFW_MOD_SHIFT;
+			modifiers.ctrl = mods & GLFW_MOD_CONTROL;
+			modifiers.alt = mods & GLFW_MOD_ALT;
+			modifiers.super = mods & GLFW_MOD_SUPER;
+
+			Keyboard genericKey = GLInputMap<Keyboard>::GetGeneric(key);
+
+			bool repeat = false;
+
+			switch (action)
 			{
-			case GLFW_REPEAT:
-				repeat = true;
-			case GLFW_PRESS:
-				glWindow->m_KeyboardHandle.SetFlag(genericKey, true);
+				{
+				case GLFW_REPEAT:
+					repeat = true;
+				case GLFW_PRESS:
+					KeyPressEvent evnt(genericKey, repeat, modifiers);
+					glWindow->GetDispatcher()->Dispatch<KeyPressEvent>(evnt);
+					break;
+				}
 
-				KeyPressEvent evnt(genericKey, repeat, modifiers);
-				glWindow->m_Dispatcher->Dispatch<KeyPressEvent>(evnt);
-				break;
+				case GLFW_RELEASE:
+					KeyReleaseEvent evnt(GLInputMap<Keyboard>::GetGeneric(key), modifiers);
+					glWindow->GetDispatcher()->Dispatch<KeyReleaseEvent>(evnt);
+					break;
 			}
-
-			case GLFW_RELEASE:
-				glWindow->m_KeyboardHandle.SetFlag(genericKey, false);
-
-				KeyReleaseEvent evnt(GLInputMap<Keyboard>::GetGeneric(key), modifiers);
-				glWindow->m_Dispatcher->Dispatch<KeyReleaseEvent>(evnt);
-				break;
 		}
 	}
 
 	void GLWindow::TypeCallback(GLFWwindow* window, unsigned int codepoint)
 	{
-		auto glWindow = static_cast<GLWindow*>(glfwGetWindowUserPointer(window));
+		auto glWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
-		TypeEvent evnt((char)codepoint);
-		glWindow->m_Dispatcher->Dispatch<TypeEvent>(evnt);
+		if (glWindow->GetDispatcher())
+		{
+			TypeEvent evnt((char)codepoint);
+			glWindow->GetDispatcher()->Dispatch<TypeEvent>(evnt);
+		}
 	}
 
 	void GLWindow::CursorMoveCallback(GLFWwindow* window, double x, double y)
 	{
-		auto glWindow = static_cast<GLWindow*>(glfwGetWindowUserPointer(window));
-		glWindow->m_MouseHandle.SetPositionVector((float)x, (float)y);
+		auto glWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
-		MouseMoveEvent evnt((float)x, (float)y);
-		glWindow->m_Dispatcher->Dispatch<MouseMoveEvent>(evnt);
+		if (glWindow->GetDispatcher())
+		{
+			MouseMoveEvent evnt((float)x, (float)y);
+			glWindow->GetDispatcher()->Dispatch<MouseMoveEvent>(evnt);
+		}
 	}
 
 	void GLWindow::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 	{
-		auto glWindow = static_cast<GLWindow*>(glfwGetWindowUserPointer(window));
+		auto glWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
-		ModifierEvent::Modifiers modifiers;
-		modifiers.shift = mods & GLFW_MOD_SHIFT;
-		modifiers.ctrl = mods & GLFW_MOD_CONTROL;
-		modifiers.alt = mods & GLFW_MOD_ALT;
-		modifiers.super = mods & GLFW_MOD_SUPER;
-
-		Mouse genericButton = GLInputMap<Mouse>::GetGeneric(button);
-
-		switch (action)
+		if (glWindow->GetDispatcher())
 		{
-			case GLFW_PRESS:
-			{
-				glWindow->m_MouseHandle.SetFlag(genericButton, true);
+			ModifierEvent::Modifiers modifiers;
+			modifiers.shift = mods & GLFW_MOD_SHIFT;
+			modifiers.ctrl = mods & GLFW_MOD_CONTROL;
+			modifiers.alt = mods & GLFW_MOD_ALT;
+			modifiers.super = mods & GLFW_MOD_SUPER;
 
-				MousePressEvent evnt(genericButton, modifiers);
-				glWindow->m_Dispatcher->Dispatch<MousePressEvent>(evnt);
-				break;
-			}
-			case GLFW_RELEASE:
-			{
-				glWindow->m_MouseHandle.SetFlag(genericButton, false);
+			Mouse genericButton = GLInputMap<Mouse>::GetGeneric(button);
 
-				MouseReleaseEvent evnt(genericButton, modifiers);
-				glWindow->m_Dispatcher->Dispatch<MouseReleaseEvent>(evnt);
-				break;
+			switch (action)
+			{
+				case GLFW_PRESS:
+				{
+					MousePressEvent evnt(genericButton, modifiers);
+					glWindow->GetDispatcher()->Dispatch<MousePressEvent>(evnt);
+					break;
+				}
+				case GLFW_RELEASE:
+				{
+					MouseReleaseEvent evnt(genericButton, modifiers);
+					glWindow->GetDispatcher()->Dispatch<MouseReleaseEvent>(evnt);
+					break;
+				}
 			}
 		}
 	}
 
 	void GLWindow::CursorEnterCallback(GLFWwindow* window, int entered)
 	{
-		auto glWindow = static_cast<GLWindow*>(glfwGetWindowUserPointer(window));
+		auto glWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
-		MouseFocusEvent evnt((bool)entered);
-		glWindow->m_Dispatcher->Dispatch<MouseFocusEvent>(evnt);
+		if (glWindow->GetDispatcher())
+		{
+			MouseFocusEvent evnt((bool)entered);
+			glWindow->GetDispatcher()->Dispatch<MouseFocusEvent>(evnt);
+		}
 	}
 
 	void GLWindow::ScrollCallback(GLFWwindow* window, double x, double y)
 	{
-		auto glWindow = static_cast<GLWindow*>(glfwGetWindowUserPointer(window));
-		glWindow->m_MouseHandle.SetScrollOffset((float)x, (float)y);
+		auto glWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
-		ScrollEvent evnt((float)x, (float)y);
-		glWindow->m_Dispatcher->Dispatch<ScrollEvent>(evnt);
+		if (glWindow->GetDispatcher())
+		{
+			ScrollEvent evnt((float)x, (float)y);
+			glWindow->GetDispatcher()->Dispatch<ScrollEvent>(evnt);
+		}
 	}
 
 	void GLWindow::WindowResizeCallback(GLFWwindow* window, int width, int height)
 	{
-		auto glWindow = static_cast<GLWindow*>(glfwGetWindowUserPointer(window));
+		auto glWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
-		WindowResizeEvent evnt(width, height);
-		glWindow->m_Dispatcher->Dispatch<WindowResizeEvent>(evnt);
+		if (glWindow->GetDispatcher())
+		{
+			WindowResizeEvent evnt(width, height);
+			glWindow->GetDispatcher()->Dispatch<WindowResizeEvent>(evnt);
+		}
 	}
 
 	void GLWindow::WindowCloseCallback(GLFWwindow* window)
 	{
-		auto glWindow = static_cast<GLWindow*>(glfwGetWindowUserPointer(window));
+		auto glWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
-		WindowCloseEvent evnt;
-		glWindow->m_Dispatcher->Dispatch<WindowCloseEvent>(evnt);
+		if (glWindow->GetDispatcher())
+		{
+			WindowCloseEvent evnt;
+			glWindow->GetDispatcher()->Dispatch<WindowCloseEvent>(evnt);
+		}
 	}
 
-	void GLWindow::WindowFocusCallback(GLFWwindow* window, int focussed)
+	IGenericWindow* IGenericWindow::Create(int width, int height, const std::string& title, Window* wrapper)
 	{
-		auto glWindow = static_cast<GLWindow*>(glfwGetWindowUserPointer(window));
-		glWindow->m_ActiveWindowFlag = (bool)focussed;
-		
-		if (focussed)
-			Window::SetActiveWindow(glWindow);
-		else
-			Window::SetActiveWindow(nullptr);
+		return new GLWindow(width, height, std::move(title), wrapper);
 	}
 }
