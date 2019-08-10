@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.6.0)
+cmake_minimum_required(VERSION 3.10.0)
 
 set(SOLUTION_NAME SketchEngine)
 set(ENGINE_NAME Sketch)

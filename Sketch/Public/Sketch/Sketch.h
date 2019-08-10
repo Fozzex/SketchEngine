@@ -9,3 +9,6 @@
 #include "Input/EventMouse.h"
 #include "Input/EventHandler.h"
 #include "Input/EventDispatcher.h"
+
+#include "Util/Timer.h"
+#include "Util/TimeStamp.h"
