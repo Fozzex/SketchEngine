@@ -22,7 +22,7 @@ namespace sk
 
 	public:
 
-		ModifierEvent(const Modifiers& mods)
+		explicit ModifierEvent(const Modifiers& mods)
 			: m_Modifiers(mods) {}
 
 		inline bool IsModShift() const { return m_Modifiers.shift; }

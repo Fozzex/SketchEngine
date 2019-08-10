@@ -69,7 +69,7 @@ namespace sk
 	{
 	public:
 
-		MouseFocusEvent(bool focussed)
+		explicit MouseFocusEvent(bool focussed)
 			: m_Focussed(focussed) {}
 
 		inline bool IsFocussed() const { return m_Focussed; }

@@ -10,7 +10,7 @@ namespace sk
 	{
 	public:
 
-		EventHandler(const std::function<bool(TEvent&)>& handler)
+		explicit EventHandler(const std::function<bool(TEvent&)>& handler)
 			: m_Handler(handler) {}
 
 		bool operator()(TEvent& e) { return m_Handler(e); }

@@ -21,7 +21,7 @@ namespace sk
 		static std::unordered_map<unsigned int, std::string> s_PrefixMap;
 	public:
 
-		Logger(const std::string& outputFile);
+		explicit Logger(const std::string& outputFile);
 		~Logger();
 
 		Logger(const Logger&) = delete;

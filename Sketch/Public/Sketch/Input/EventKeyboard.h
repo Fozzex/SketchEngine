@@ -40,7 +40,7 @@ namespace sk
 	{
 	public:
 
-		TypeEvent(char key)
+		explicit TypeEvent(char key)
 			: m_Key(key) {}
 
 		inline char GetKey() const { return m_Key; }
