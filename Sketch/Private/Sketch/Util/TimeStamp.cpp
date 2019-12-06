@@ -7,6 +7,16 @@ namespace sk
 
 	double TimeStamp::GetSeconds() const
 	{
-		return m_Microseconds / 1000000.f;
+		return m_Microseconds / 1000000.0;
+	}
+
+	double TimeStamp::GetMilliseconds() const
+	{
+		return m_Microseconds / 1000.0;
+	}
+
+	UInt64 TimeStamp::GetMicroseconds() const
+	{
+		return m_Microseconds;
 	}
 }

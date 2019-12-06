@@ -10,6 +10,8 @@ namespace sk
 		explicit TimeStamp(UInt64 microseconds);
 
 		double GetSeconds() const;
+		double GetMilliseconds() const;
+		UInt64 GetMicroseconds() const;
 
 	private:
 

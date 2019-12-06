@@ -40,7 +40,7 @@ namespace sk
 	protected:
 
 		bool m_IsFocussed = false;
-		EventDispatcher* m_Dispatcher;
+		EventDispatcher* m_Dispatcher = nullptr;
 
 	};
 }

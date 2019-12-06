@@ -25,6 +25,8 @@ namespace sk
 		glfwSetScrollCallback(m_RawWindow, ScrollCallback);
 		glfwSetWindowSizeCallback(m_RawWindow, WindowResizeCallback);
 		glfwSetWindowCloseCallback(m_RawWindow, WindowCloseCallback);
+
+		glfwMakeContextCurrent(m_RawWindow);
 	}
 
 	bool GLWindow::Closed()
@@ -45,16 +47,19 @@ namespace sk
 
 	void GLWindow::SetSize(int width, int height)
 	{
+		glfwMakeContextCurrent(m_RawWindow);
 		glfwSetWindowSize(m_RawWindow, width, height);
 	}
 
 	void GLWindow::SetTitle(const std::string& title)
 	{
+		glfwMakeContextCurrent(m_RawWindow);
 		glfwSetWindowTitle(m_RawWindow, title.c_str());
 	}
 
 	void GLWindow::SetVSync(bool enable)
 	{
+		glfwMakeContextCurrent(m_RawWindow);
 		glfwSwapInterval(enable ? 1 : 0);
 	}
 
